@@ -1,0 +1,11 @@
+opencv-python
+numpy
+pytesseract
+stable-baselines3
+gymnasium
+pandas
+sqlalchemy
+pyyaml
+python-dotenv
+matplotlib
+
