@@ -1,0 +1,8 @@
+1) Download Android SDK Platform-Tools for Windows from the official Android site (search 'platform-tools download Android').
+2) Unzip and place folder e.g. C:\platform-tools
+3) Add C:\platform-tools to System PATH (Environment Variables -> Path).
+4) Connect device by USB. On device: Settings -> About phone -> tap Build number 7x to reveal Developer options; then Settings -> System -> Developer options -> enable USB debugging. (Android developer docs)
+5) If Windows does not recognize device, install OEM USB driver or Google USB Driver (Android Studio SDK Manager or download Google USB Driver ZIP).
+6) Confirm connection with in PowerShell: adb devices
+7) If device prompts to authorize computer on the phone, accept it.
+
