@@ -8,7 +8,8 @@ reg?.addEventListener('submit', async (e)=>{
   e.preventDefault();
   const payload = Object.fromEntries(new FormData(reg));
   const d = await postJSON('/api/account/register', payload);
-  document.getElementById('register-result').textContent = JSON.stringify(d, null, 2);
+  const pretty = d?.user_id ? String(d.user_id).padStart(5,'0') : null;
+  document.getElementById('register-result').textContent = pretty ? `Conta criada! ID Jogador: ${pretty}\n` + JSON.stringify(d, null, 2) : JSON.stringify(d, null, 2);
 });
 
 const login = document.getElementById('login-form');

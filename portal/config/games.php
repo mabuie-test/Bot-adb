@@ -11,4 +11,5 @@ return [
     'tournament' => ['name' => 'Tournament', 'shortcode' => 'tournament', 'min_bet' => 5, 'max_bet' => 1000, 'house_edge' => 0.012, 'volatility' => 'medium', 'avg_round_seconds' => 10, 'seed_rotation_interval' => 100],
     'demo' => ['name' => 'Demo', 'shortcode' => 'demo', 'min_bet' => 5, 'max_bet' => 10000, 'house_edge' => 0.0, 'volatility' => 'medium', 'avg_round_seconds' => 10, 'seed_rotation_interval' => 100, 'fake_credits' => true],
     'wheel' => ['name' => 'Wheel of Odds', 'shortcode' => 'wheel', 'min_bet' => 5, 'max_bet' => 3000, 'house_edge' => 0.02, 'volatility' => 'high', 'avg_round_seconds' => 8, 'seed_rotation_interval' => 100],
+    'dice' => ['name' => 'Dice Duel', 'shortcode' => 'dice', 'min_bet' => 5, 'max_bet' => 2500, 'house_edge' => 0.02, 'volatility' => 'medium', 'avg_round_seconds' => 7, 'seed_rotation_interval' => 100],
 ];

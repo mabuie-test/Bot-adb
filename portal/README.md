@@ -91,6 +91,7 @@ php scripts/reconcile_csv.php storage/reconciliation/sample_statement.csv
 
 ## Melhorias recentes de jogos
 
+- Implementado **Duelo de Dados** com dado azul e branco, apostas por soma/comparação/paridade e prova justa por seed/hmac.
 - Implementada **Roda da Sorte** com odds na roda (inclui x0.5 até x5.0), prova justa por seed/hmac e animação dedicada.
 - Aplicada aposta mínima global de **5 MTS** para jogos monetários.
 - Painel administrativo inicial com endpoints para utilizadores, submissões pendentes, verificação/rejeição de depósitos, alternância de jogos e relatório financeiro.
@@ -103,6 +104,7 @@ php scripts/reconcile_csv.php storage/reconciliation/sample_statement.csv
 ## Conta e perfil
 
 - Conta do utilizador com registo (nome, email único, telefone único, data de nascimento 18+), login e recuperação de senha por email.
+- ID de jogador fixo em formato `00001` gerado no registo e exibido no perfil; suporte a avatar de utilizador.
 - Perfil com preferências não críticas e endpoints para histórico de apostas e levantamentos.
 
 ## Segurança implementada

@@ -37,3 +37,12 @@ pre{background:#0b1324;padding:.5rem;border-radius:6px;min-height:64px;overflow:
 .wheel{width:220px;height:220px;transition:transform 3s cubic-bezier(.15,.9,.08,1)}
 .wheel.spin{animation:wheelSpin 3s cubic-bezier(.15,.9,.08,1)}
 @keyframes wheelSpin{from{transform:rotate(0deg)}to{transform:rotate(1440deg)}}
+
+
+.user-code-view{margin:.5rem 0;padding:.7rem;border:1px solid #334155;border-radius:10px;background:linear-gradient(90deg,#1f2937,#111827);font-size:1.05rem}
+.user-code-view strong{font-size:1.4rem;color:#facc15;letter-spacing:.12em}
+.avatar-view{display:flex;justify-content:center;margin:.6rem 0}.avatar-view img{width:90px;height:90px;border-radius:50%;border:3px solid #38bdf8;object-fit:cover;background:#0b1324}
+.dice-wrap{display:flex;gap:1rem;justify-content:center;margin:.8rem 0}
+.dice{width:76px;height:76px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:800;transition:transform .3s ease}
+.dice.blue{background:#2563eb;color:white}.dice.white{background:#f8fafc;color:#111827}
+.dice.roll{animation:roll .55s linear 3}@keyframes roll{from{transform:rotate(0)}to{transform:rotate(360deg)}}

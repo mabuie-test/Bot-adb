@@ -16,6 +16,7 @@ const GAME_META = {
   demo:{name:'Demo',img:'/assets/img/demo.svg',kind:'crash',freq:140},
   coinflip:{name:'Cara ou Coroa',img:'/assets/img/coin.svg',kind:'coinflip',freq:175},
   wheel:{name:'Roda da Sorte',img:'/assets/img/wheel.svg',kind:'wheel',freq:165},
+  dice:{name:'Duelo de Dados',img:'/assets/img/dice.svg',kind:'dice',freq:190},
 };
 
 const params = new URLSearchParams(location.search);
@@ -37,6 +38,10 @@ if (meta.kind === 'coinflip') {
 if (meta.kind === 'wheel') {
   document.getElementById('crash-panel').style.display = 'none';
   document.getElementById('wheel-panel').style.display = 'block';
+}
+if (meta.kind === 'dice') {
+  document.getElementById('crash-panel').style.display = 'none';
+  document.getElementById('dice-panel').style.display = 'block';
 }
 
 let audioEnabled = true;
@@ -117,6 +122,26 @@ document.getElementById('cashout')?.addEventListener('click', async ()=>{
   document.getElementById('game-result').textContent = JSON.stringify(d, null, 2);
 });
 
+
+
+const diceForm = document.getElementById('dice-form');
+const diceBlue = document.getElementById('dice-blue');
+const diceWhite = document.getElementById('dice-white');
+diceForm?.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const payload = Object.fromEntries(new FormData(diceForm));
+  diceBlue?.classList.add('roll');
+  diceWhite?.classList.add('roll');
+  tone(meta.freq + 18, .18, .03);
+  const d = await getJSON('/api/dice-duel/play', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)});
+  setTimeout(()=>{diceBlue?.classList.remove('roll'); diceWhite?.classList.remove('roll');}, 1600);
+  if (d?.data) {
+    if (diceBlue) diceBlue.textContent = d.data.blue_dice;
+    if (diceWhite) diceWhite.textContent = d.data.white_dice;
+  }
+  setBalance(localBalance - Number(payload.amount || 0) + Number(d?.data?.payout || 0));
+  document.getElementById('dice-result').textContent = JSON.stringify(d, null, 2);
+});
 
 const wheelForm = document.getElementById('wheel-form');
 const wheelImg = document.getElementById('wheel-img');

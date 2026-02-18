@@ -18,7 +18,7 @@
       <input name="user_id" type="number" placeholder="User ID" required />
       <button>Carregar perfil</button>
     </form>
-    <pre id="profile-result"></pre>
+    <div class="user-code-view">ID Jogador: <strong id="user-code">00000</strong></div><div class="avatar-view"><img id="avatar-preview" src="/assets/img/coin.svg" alt="avatar"/></div><pre id="profile-result"></pre>
   </section>
 
   <section>
@@ -26,7 +26,7 @@
     <form id="prefs-form">
       <input name="user_id" type="number" placeholder="User ID" required />
       <input name="display_name" placeholder="Nome de exibição" />
-      <select name="theme"><option value="dark">Dark</option><option value="light">Light</option></select>
+      <select name="theme"><option value="dark">Dark</option><option value="light">Light</option></select><input name="avatar_url" placeholder="URL do avatar"/>
       <select name="sound_enabled"><option value="true">Som ON</option><option value="false">Som OFF</option></select>
       <button>Guardar preferências</button>
     </form>

@@ -20,6 +20,9 @@ use App\Services\ProvablyFairService;
 use App\Services\RoundService;
 use App\Services\WalletService;
 use App\Services\WheelService;
+use App\Services\DiceDuelService;
+use App\Services\ProfileService;
+use App\Services\AuthService;
 
 final class ApiController
 {
@@ -54,7 +57,7 @@ final class ApiController
                 (string) ($data['birth_date'] ?? ''),
                 (string) ($data['password'] ?? '')
             );
-            Response::json(['message' => 'Conta criada', 'user_id' => $id], 201);
+            Response::json(['message' => 'Conta criada', 'user_id' => $id, 'user_code' => str_pad((string) $id, 5, '0', STR_PAD_LEFT)], 201);
         } catch (\Throwable $e) {
             Response::json(['error' => $e->getMessage()], 422);
         }
@@ -237,6 +240,25 @@ final class ApiController
         Response::json(['data' => ['balance' => (float) $wallet['balance'], 'currency' => $wallet['currency']]]);
     }
 
+
+
+    public function playDiceDuel(): void
+    {
+        $data = json_decode((string) file_get_contents('php://input'), true) ?: [];
+        $svc = new DiceDuelService(new ProvablyFairService(new SeedCrypto()), new WalletService());
+        try {
+            $result = $svc->play(
+                (int) ($data['user_id'] ?? 0),
+                (float) ($data['amount'] ?? 0),
+                (string) ($data['bet_type'] ?? ''),
+                (string) ($data['selection'] ?? ''),
+                $data['client_seed'] ?? null
+            );
+            Response::json(['message' => 'Duelo de dados concluído', 'data' => $result], 201);
+        } catch (\Throwable $e) {
+            Response::json(['error' => $e->getMessage()], 422);
+        }
+    }
 
     public function playWheel(): void
     {

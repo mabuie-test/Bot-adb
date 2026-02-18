@@ -7,6 +7,8 @@ profileForm?.addEventListener('submit', async (e)=>{
   const userId = Object.fromEntries(new FormData(profileForm)).user_id;
   const d = await getJSON(`/api/account/profile?user_id=${userId}`);
   document.getElementById('profile-result').textContent = JSON.stringify(d, null, 2);
+  if (d?.data?.user_code) document.getElementById('user-code').textContent = d.data.user_code;
+  if (d?.data?.avatar_url) document.getElementById('avatar-preview').src = d.data.avatar_url;
 });
 
 const prefsForm = document.getElementById('prefs-form');
@@ -18,7 +20,8 @@ prefsForm?.addEventListener('submit', async (e)=>{
     preferences: {
       display_name: data.display_name || '',
       theme: data.theme || 'dark',
-      sound_enabled: data.sound_enabled === 'true'
+      sound_enabled: data.sound_enabled === 'true',
+      avatar_url: data.avatar_url || ''
     }
   };
   const d = await postJSON('/api/account/preferences', payload);

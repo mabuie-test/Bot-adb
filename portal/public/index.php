@@ -44,6 +44,7 @@ $router->add('POST', '/api/admin/payments/verify', [$controller, 'adminVerifySub
 $router->add('GET', '/api/admin/payments/pending', [$controller, 'adminPendingSubmissions']);
 $router->add('GET', '/api/admin/users', [$controller, 'adminUsers']);
 $router->add('POST', '/api/wheel/play', [$controller, 'playWheel']);
+$router->add('POST', '/api/dice-duel/play', [$controller, 'playDiceDuel']);
 
 $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
 $router->dispatch($_SERVER['REQUEST_METHOD'] ?? 'GET', $path);

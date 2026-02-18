@@ -29,12 +29,16 @@ final class AuthService
             'status' => 'active',
         ]);
 
-        return (int) Database::connection()->lastInsertId();
+        $id = (int) Database::connection()->lastInsertId();
+        $userCode = str_pad((string) $id, 5, "0", STR_PAD_LEFT);
+        $u = Database::connection()->prepare('UPDATE users SET user_code=:code WHERE id=:id');
+        $u->execute(['code' => $userCode, 'id' => $id]);
+        return $id;
     }
 
     public function login(string $email, string $password): array
     {
-        $stmt = Database::connection()->prepare('SELECT id, full_name, email, phone, birth_date, password_hash, status, preferences_json FROM users WHERE email=:email LIMIT 1');
+        $stmt = Database::connection()->prepare('SELECT id, user_code, full_name, email, phone, birth_date, avatar_url, password_hash, status, preferences_json FROM users WHERE email=:email LIMIT 1');
         $stmt->execute(['email' => strtolower(trim($email))]);
         $user = $stmt->fetch();
         if (!$user || !Password::verify($password, (string) $user['password_hash'])) {

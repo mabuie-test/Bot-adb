@@ -103,3 +103,11 @@ curl -X POST http://localhost:8080/api/wheel/play \
 ```bash
 curl http://localhost:8080/api/admin/reports/financial
 ```
+
+
+## Jogar duelo de dados (min 5 MTS)
+```bash
+curl -X POST http://localhost:8080/api/dice-duel/play \
+  -H 'Content-Type: application/json' \
+  -d '{"user_id":1,"amount":30,"bet_type":"compare","selection":"blue_gt_white"}'
+```

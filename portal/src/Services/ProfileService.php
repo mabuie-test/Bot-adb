@@ -10,7 +10,7 @@ final class ProfileService
 {
     public function getProfile(int $userId): array
     {
-        $stmt = Database::connection()->prepare('SELECT id, full_name, email, phone, birth_date, status, preferences_json, created_at FROM users WHERE id=:id LIMIT 1');
+        $stmt = Database::connection()->prepare('SELECT id, user_code, full_name, email, phone, birth_date, avatar_url, status, preferences_json, created_at FROM users WHERE id=:id LIMIT 1');
         $stmt->execute(['id' => $userId]);
         $user = $stmt->fetch();
         if (!$user) {
@@ -31,9 +31,10 @@ final class ProfileService
             'display_name' => (string) ($prefs['display_name'] ?? ''),
             'theme' => (string) ($prefs['theme'] ?? 'dark'),
             'sound_enabled' => (bool) ($prefs['sound_enabled'] ?? true),
+            'avatar_url' => (string) ($prefs['avatar_url'] ?? ''),
         ];
-        $stmt = Database::connection()->prepare('UPDATE users SET preferences_json=:prefs WHERE id=:id');
-        $stmt->execute(['prefs' => json_encode($allowed, JSON_THROW_ON_ERROR), 'id' => $userId]);
+        $stmt = Database::connection()->prepare('UPDATE users SET preferences_json=:prefs, avatar_url=:avatar WHERE id=:id');
+        $stmt->execute(['prefs' => json_encode($allowed, JSON_THROW_ON_ERROR), 'avatar' => ($allowed['avatar_url'] ?: null), 'id' => $userId]);
     }
 
     public function betHistory(int $userId, int $limit = 100): array
