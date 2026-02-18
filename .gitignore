@@ -1,8 +1,0 @@
-# PHP portal build artifacts
-portal/crash_portal_package.zip
-portal/var/dist/*.zip
-
-# Runtime/generated
-portal/vendor/
-portal/logs/
-portal/storage/queue/
