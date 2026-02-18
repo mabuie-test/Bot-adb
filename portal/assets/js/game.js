@@ -82,8 +82,26 @@ function bindPads(containerId) {
     });
   });
 }
+
+function bindAmountPads(containerId, formSelector) {
+  const root = document.getElementById(containerId);
+  const form = document.getElementById(formSelector);
+  if (!root || !form) return;
+  const amountInput = form.querySelector('input[name="amount"]');
+  if (!amountInput) return;
+  root.querySelectorAll('.pad').forEach((btn)=>{
+    btn.addEventListener('click', ()=>{
+      amountInput.value = btn.dataset.amount || '';
+      root.querySelectorAll('.pad').forEach(pad=>pad.classList.remove('selected'));
+      btn.classList.add('selected');
+    });
+  });
+}
 bindPads('dice-bet-type-pads');
 bindPads('dice-selection-pads');
+bindPads('coin-choice-pads');
+bindAmountPads('wheel-amount-pads', 'wheel-form');
+bindAmountPads('coin-amount-pads', 'coin-form');
 
 let latestBetId = null;
 let selectedAutoCashout = null;
@@ -114,8 +132,13 @@ document.querySelectorAll('.chip').forEach((chip)=> chip.addEventListener('click
 document.getElementById('stake-half')?.addEventListener('click', ()=>setStake(Number(stakeInput.value||0)/2));
 document.getElementById('stake-double')?.addEventListener('click', ()=>setStake(Number(stakeInput.value||0)*2));
 document.getElementById('stake-clear')?.addEventListener('click', ()=>setStake(0));
-document.getElementById('auto-cashout-2')?.addEventListener('click', ()=>{selectedAutoCashout=2.0;});
-document.getElementById('auto-cashout-3')?.addEventListener('click', ()=>{selectedAutoCashout=3.0;});
+function setAutoCashout(value, triggerId){
+  selectedAutoCashout = value;
+  ['auto-cashout-2','auto-cashout-3'].forEach((id)=>document.getElementById(id)?.classList.remove('selected'));
+  document.getElementById(triggerId)?.classList.add('selected');
+}
+document.getElementById('auto-cashout-2')?.addEventListener('click', ()=>setAutoCashout(2.0,'auto-cashout-2'));
+document.getElementById('auto-cashout-3')?.addEventListener('click', ()=>setAutoCashout(3.0,'auto-cashout-3'));
 
 document.getElementById('create-round')?.addEventListener('click', async ()=>{
   const d = await getJSON('/api/rounds', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({game})});

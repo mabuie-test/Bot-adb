@@ -30,7 +30,7 @@
     <button type="button" id="sound-toggle" class="secondary">🔊 Som: ON</button>
   </section>
 
-  <section id="crash-panel">
+  <section id="crash-panel" class="game-panel">
     <h2>Painel de aposta</h2>
     <div class="wallet-panel">
       <div><label>User ID</label><input id="wallet_user_id" type="number" placeholder="User ID" /></div>
@@ -42,23 +42,23 @@
       <div class="stake-row">
         <label>Stake</label>
         <input name="amount" id="stake_amount" type="number" step="0.01" min="5" required />
-        <div class="stake-actions">
-          <button type="button" class="small-btn" id="stake-half">½</button>
-          <button type="button" class="small-btn" id="stake-double">2x</button>
-          <button type="button" class="small-btn" id="stake-clear">Limpar</button>
+      <div class="stake-actions pad-grid compact-grid">
+          <button type="button" class="pad" id="stake-half">½</button>
+          <button type="button" class="pad" id="stake-double">2x</button>
+          <button type="button" class="pad" id="stake-clear">Limpar</button>
         </div>
       </div>
-      <div class="chip-row">
-        <button type="button" class="chip" data-chip="10">10</button>
-        <button type="button" class="chip" data-chip="25">25</button>
-        <button type="button" class="chip" data-chip="50">50</button>
-        <button type="button" class="chip" data-chip="100">100</button>
+      <div class="chip-row pad-grid compact-grid">
+        <button type="button" class="pad chip" data-chip="10">10 MZN</button>
+        <button type="button" class="pad chip" data-chip="25">25 MZN</button>
+        <button type="button" class="pad chip" data-chip="50">50 MZN</button>
+        <button type="button" class="pad chip" data-chip="100">100 MZN</button>
       </div>
       <input name="user_id" id="bet_user_id" type="number" placeholder="User ID" required />
-      <div class="bet-buttons">
-        <button type="button" id="create-round" class="secondary">Criar round</button>
-        <button type="button" id="auto-cashout-2" class="secondary">Auto 2.0x</button>
-        <button type="button" id="auto-cashout-3" class="secondary">Auto 3.0x</button>
+      <div class="bet-buttons pad-grid compact-grid">
+        <button type="button" id="create-round" class="pad">Criar round</button>
+        <button type="button" id="auto-cashout-2" class="pad">Auto 2.0x</button>
+        <button type="button" id="auto-cashout-3" class="pad">Auto 3.0x</button>
       </div>
       <input name="round_id" id="round_id" type="number" placeholder="Round ID" required />
       <button class="primary">Apostar</button>
@@ -69,7 +69,7 @@
 
   
 
-  <section id="wheel-panel" style="display:none">
+  <section id="wheel-panel" class="game-panel" style="display:none">
     <h2>Roda da Sorte</h2>
     <div class="wheel-box">
       <img src="/assets/img/wheel.svg" id="wheel-img" class="wheel" alt="roda" />
@@ -77,6 +77,13 @@
     <form id="wheel-form">
       <input name="user_id" type="number" placeholder="User ID" required />
       <input name="amount" type="number" step="0.01" min="5" placeholder="Montante (min 5)" required />
+      <label>Ação rápida</label>
+      <div class="pad-grid compact-grid" id="wheel-amount-pads">
+        <button type="button" class="pad" data-target="wheel-form" data-amount="10">10 MZN</button>
+        <button type="button" class="pad" data-target="wheel-form" data-amount="25">25 MZN</button>
+        <button type="button" class="pad" data-target="wheel-form" data-amount="50">50 MZN</button>
+        <button type="button" class="pad" data-target="wheel-form" data-amount="100">100 MZN</button>
+      </div>
       <button>Girar roda</button>
     </form>
     <pre id="wheel-result"></pre>
@@ -84,7 +91,7 @@
 
   
 
-  <section id="dice-panel" style="display:none">
+  <section id="dice-panel" class="game-panel" style="display:none">
     <h2>Duelo de Dados</h2>
     <div class="dice-wrap">
       <div class="dice blue" id="dice-blue">?</div>
@@ -119,13 +126,25 @@
     <pre id="dice-result"></pre>
   </section>
 
-  <section id="coin-panel" style="display:none">
+  <section id="coin-panel" class="game-panel" style="display:none">
     <h2>Cara ou Coroa</h2>
     <div class="coin-box"><img src="/assets/img/coin.svg" class="coin" id="coin" alt="moeda" /></div>
     <form id="coin-form">
       <input name="user_id" type="number" placeholder="User ID" required />
       <input name="amount" type="number" step="0.01" placeholder="Montante" required />
-      <select name="choice" required><option value="cara">Cara</option><option value="coroa">Coroa</option></select>
+      <input type="hidden" name="choice" id="coin-choice" value="cara" />
+      <label>Escolha</label>
+      <div class="pad-grid compact-grid" id="coin-choice-pads">
+        <button type="button" class="pad active" data-target="coin-choice" data-value="cara">Cara</button>
+        <button type="button" class="pad" data-target="coin-choice" data-value="coroa">Coroa</button>
+      </div>
+      <label>Ação rápida</label>
+      <div class="pad-grid compact-grid" id="coin-amount-pads">
+        <button type="button" class="pad" data-target="coin-form" data-amount="10">10 MZN</button>
+        <button type="button" class="pad" data-target="coin-form" data-amount="25">25 MZN</button>
+        <button type="button" class="pad" data-target="coin-form" data-amount="50">50 MZN</button>
+        <button type="button" class="pad" data-target="coin-form" data-amount="100">100 MZN</button>
+      </div>
       <button>Girar moeda</button>
     </form>
     <pre id="coin-result"></pre>
