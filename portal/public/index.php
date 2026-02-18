@@ -27,6 +27,7 @@ $router->add('GET', '/api/rounds', [$controller, 'listRounds']);
 $router->add('GET', '/api/rounds/proof', [$controller, 'roundProof']);
 $router->add('POST', '/api/bets', [$controller, 'placeBet']);
 $router->add('POST', '/api/bets/cashout', [$controller, 'cashout']);
+$router->add('POST', '/api/coinflip/play', [$controller, 'playCoinFlip']);
 
 $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
 $router->dispatch($_SERVER['REQUEST_METHOD'] ?? 'GET', $path);

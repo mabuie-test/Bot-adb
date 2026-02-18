@@ -5,5 +5,13 @@ section{background:#1e293b;padding:1rem;border-radius:8px}
 input,button,select{display:block;width:100%;margin:.4rem 0;padding:.6rem;border-radius:6px;border:1px solid #334155;background:#0b1324;color:#dbeafe}
 button{background:#22c55e;color:#08130a;font-weight:700}
 #multiplier{font-size:2.3rem;font-weight:800;color:#38bdf8}
-pre{background:#0b1324;padding:.5rem;border-radius:6px;min-height:64px}
+pre{background:#0b1324;padding:.5rem;border-radius:6px;min-height:64px;overflow:auto}
+.game-cards{display:grid;grid-template-columns:1fr;gap:.7rem}
+.card{display:flex;gap:.8rem;background:#0b1324;border:1px solid #334155;border-radius:8px;padding:.5rem;align-items:center}
+.card img{width:74px;height:54px;object-fit:cover;border-radius:6px}
+.coin-box{display:flex;justify-content:center;align-items:center;min-height:120px}
+.coin{width:96px;height:96px;transition:transform .8s ease}
+.coin.spin{animation:spin 0.8s linear 4}
+@keyframes spin{from{transform:rotateY(0)}to{transform:rotateY(1080deg)}}
+.phase-running{color:#22c55e}.phase-crashed{color:#ef4444}.phase-starting{color:#f59e0b}
 @media(max-width:900px){.grid{grid-template-columns:1fr}}

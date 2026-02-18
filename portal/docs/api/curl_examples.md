@@ -54,3 +54,11 @@ curl 'http://localhost:8080/api/rounds/proof?round_id=1001'
 ```bash
 curl 'http://localhost:8080/api/rounds?game_id=1'
 ```
+
+
+## Jogar cara ou coroa
+```bash
+curl -X POST http://localhost:8080/api/coinflip/play \
+  -H 'Content-Type: application/json' \
+  -d '{"user_id":1,"amount":50,"choice":"cara","client_seed":"abc"}'
+```

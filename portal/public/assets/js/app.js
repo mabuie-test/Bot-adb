@@ -53,11 +53,36 @@ document.getElementById('cashout')?.addEventListener('click', async ()=>{
   document.getElementById('game-result').textContent = JSON.stringify(d, null, 2);
 });
 
+const coinForm = document.getElementById('coin-form');
+const coinEl = document.getElementById('coin');
+coinForm?.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const payload = Object.fromEntries(new FormData(coinForm));
+  coinEl?.classList.remove('spin');
+  void coinEl?.offsetWidth;
+  coinEl?.classList.add('spin');
+  const d = await getJSON('/api/coinflip/play', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)});
+  setTimeout(()=> coinEl?.classList.remove('spin'), 3200);
+  document.getElementById('coin-result').textContent = JSON.stringify(d, null, 2);
+});
+
 const status = document.getElementById('status');
 const mult = document.getElementById('multiplier');
+const phaseEl = document.getElementById('round-phase');
+const roundIndexEl = document.getElementById('round-index');
+const crashPointEl = document.getElementById('crash-point');
+
 function connectSSE(){
   const sse = new EventSource('/sse.php');
-  sse.onmessage = (e)=>{const d=JSON.parse(e.data); mult.textContent=`${d.multiplier.toFixed(2)}x`; status.textContent='SSE ativo';};
+  sse.addEventListener('tick', (e)=>{
+    const d = JSON.parse(e.data);
+    mult.textContent = `${Number(d.multiplier).toFixed(2)}x`;
+    phaseEl.textContent = d.phase;
+    phaseEl.className = `phase-${d.phase}`;
+    roundIndexEl.textContent = d.round_index;
+    crashPointEl.textContent = Number(d.crash_point).toFixed(2);
+    status.textContent = d.phase === 'crashed' ? 'Round crashado, aguardando próximo...' : 'Round ativo';
+  });
   sse.onerror = ()=>{status.textContent='Reconectando...'; sse.close(); setTimeout(connectSSE,1500);};
 }
 

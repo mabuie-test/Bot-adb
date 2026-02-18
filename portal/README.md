@@ -89,6 +89,11 @@ php -r 'for($i=0;$i<100;$i++){echo file_get_contents("http://localhost:8080/api/
 php scripts/reconcile_csv.php storage/reconciliation/sample_statement.csv
 ```
 
+## Melhorias recentes de jogos
+
+- Interface visual com cards de jogos e imagens (`aviator.svg`, `coin.svg`) + feed SSE contínuo de rounds em execução.
+- Novo mini-jogo **Cara ou Coroa justo** com animação da moeda e retorno de prova (`seed/hash/hmac`).
+
 ## Segurança implementada
 
 - Argon2id para passwords

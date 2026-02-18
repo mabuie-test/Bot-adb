@@ -7,8 +7,69 @@
   <link rel="stylesheet" href="/assets/css/app.css" />
 </head>
 <body>
-  <header><h1>Crash Portal</h1><p>Jogos crash com rounds/provas e depósito manual</p></header>
+  <header>
+    <h1>Crash Portal</h1>
+    <p>Rounds sempre a rodar: entra, aposta e faz cashout antes do crash.</p>
+  </header>
+
   <main class="grid">
+    <section>
+      <h2>Jogos em execução</h2>
+      <div class="game-cards">
+        <article class="card">
+          <img src="/assets/img/aviator.svg" alt="Jogo aviator" />
+          <div>
+            <strong>Aviator Crash</strong>
+            <p>Status: <span id="round-phase">starting</span></p>
+            <p>Round #<span id="round-index">-</span></p>
+          </div>
+        </article>
+        <article class="card">
+          <img src="/assets/img/coin.svg" alt="Jogo cara ou coroa" />
+          <div>
+            <strong>Cara ou Coroa Justo</strong>
+            <p>Provably fair por seed/hmac.</p>
+          </div>
+        </article>
+      </div>
+
+      <h3>Crash ao vivo</h3>
+      <div id="multiplier">1.00x</div>
+      <p id="status">Conectando...</p>
+      <p>Crash point atual: <span id="crash-point">-</span>x</p>
+    </section>
+
+    <section>
+      <h2>Aposta rápida (Crash)</h2>
+      <form id="bet-form">
+        <input name="user_id" type="number" placeholder="User ID" required />
+        <input name="amount" type="number" step="0.01" placeholder="Montante" required />
+        <select id="game"></select>
+        <button type="button" id="create-round">Criar round</button>
+        <input name="round_id" id="round_id" type="number" placeholder="Round ID" required />
+        <button>Apostar</button>
+      </form>
+      <button id="cashout">Cashout 2.0x</button>
+      <pre id="game-result"></pre>
+    </section>
+
+    <section>
+      <h2>Cara ou Coroa</h2>
+      <div class="coin-box">
+        <img src="/assets/img/coin.svg" class="coin" id="coin" alt="moeda" />
+      </div>
+      <form id="coin-form">
+        <input name="user_id" type="number" placeholder="User ID" required />
+        <input name="amount" type="number" step="0.01" placeholder="Montante" required />
+        <select name="choice" required>
+          <option value="cara">Cara</option>
+          <option value="coroa">Coroa</option>
+        </select>
+        <button>Girar moeda</button>
+      </form>
+      <pre id="coin-result"></pre>
+    </section>
+
     <section>
       <h2>Depósito Manual</h2>
       <ol>
@@ -25,22 +86,6 @@
         <button>Submeter</button>
       </form>
       <pre id="deposit-result"></pre>
-    </section>
-
-    <section>
-      <h2>Aposta rápida</h2>
-      <form id="bet-form">
-        <input name="user_id" type="number" placeholder="User ID" required />
-        <input name="amount" type="number" step="0.01" placeholder="Montante" required />
-        <select id="game"></select>
-        <button type="button" id="create-round">Criar round</button>
-        <input name="round_id" id="round_id" type="number" placeholder="Round ID" required />
-        <button>Apostar</button>
-      </form>
-      <button id="cashout">Cashout 2.0x</button>
-      <pre id="game-result"></pre>
-      <div id="multiplier">1.00x</div>
-      <p id="status">Conectando...</p>
     </section>
   </main>
 

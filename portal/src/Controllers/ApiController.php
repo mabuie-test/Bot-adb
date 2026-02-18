@@ -13,6 +13,7 @@ use App\Security\Csrf;
 use App\Security\Password;
 use App\Security\SeedCrypto;
 use App\Services\BetService;
+use App\Services\CoinFlipService;
 use App\Services\CrashEngine;
 use App\Services\PaymentSubmissionService;
 use App\Services\ProvablyFairService;
@@ -111,6 +112,25 @@ final class ApiController
         }
         $repo = new RoundRepository();
         Response::json(['data' => $repo->latestByGame($gameId)]);
+    }
+
+
+    public function playCoinFlip(): void
+    {
+        $data = json_decode((string) file_get_contents('php://input'), true) ?: [];
+        $service = new CoinFlipService(new ProvablyFairService(new SeedCrypto()), new WalletService());
+
+        try {
+            $result = $service->play(
+                (int) ($data['user_id'] ?? 0),
+                (float) ($data['amount'] ?? 0),
+                (string) ($data['choice'] ?? ''),
+                $data['client_seed'] ?? null
+            );
+            Response::json(['message' => 'Coin flip concluído', 'data' => $result], 201);
+        } catch (\Throwable $e) {
+            Response::json(['error' => $e->getMessage()], 422);
+        }
     }
 
     public function roundProof(): void
