@@ -32,3 +32,8 @@ pre{background:#0b1324;padding:.5rem;border-radius:6px;min-height:64px;overflow:
 .game-tile span{font-weight:700}
 @media(max-width:1200px){.wallet-panel{grid-template-columns:1fr 1fr}.balance-box{grid-column:1/-1}.lobby{grid-template-columns:repeat(3,minmax(160px,1fr))}}
 @media(max-width:900px){.grid{grid-template-columns:1fr}.bet-buttons{grid-template-columns:1fr}.lobby{grid-template-columns:repeat(2,minmax(150px,1fr))}}
+
+.wheel-box{display:flex;justify-content:center;align-items:center;min-height:220px}
+.wheel{width:220px;height:220px;transition:transform 3s cubic-bezier(.15,.9,.08,1)}
+.wheel.spin{animation:wheelSpin 3s cubic-bezier(.15,.9,.08,1)}
+@keyframes wheelSpin{from{transform:rotate(0deg)}to{transform:rotate(1440deg)}}

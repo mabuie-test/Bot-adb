@@ -15,6 +15,7 @@ const GAME_META = {
   tournament:{name:'Tournament',img:'/assets/img/tournament.svg',kind:'crash',freq:180},
   demo:{name:'Demo',img:'/assets/img/demo.svg',kind:'crash',freq:140},
   coinflip:{name:'Cara ou Coroa',img:'/assets/img/coin.svg',kind:'coinflip',freq:175},
+  wheel:{name:'Roda da Sorte',img:'/assets/img/wheel.svg',kind:'wheel',freq:165},
 };
 
 const params = new URLSearchParams(location.search);
@@ -32,6 +33,10 @@ document.getElementById('game-sub').textContent = meta.kind === 'coinflip'
 if (meta.kind === 'coinflip') {
   document.getElementById('crash-panel').style.display = 'none';
   document.getElementById('coin-panel').style.display = 'block';
+}
+if (meta.kind === 'wheel') {
+  document.getElementById('crash-panel').style.display = 'none';
+  document.getElementById('wheel-panel').style.display = 'block';
 }
 
 let audioEnabled = true;
@@ -112,6 +117,19 @@ document.getElementById('cashout')?.addEventListener('click', async ()=>{
   document.getElementById('game-result').textContent = JSON.stringify(d, null, 2);
 });
 
+
+const wheelForm = document.getElementById('wheel-form');
+const wheelImg = document.getElementById('wheel-img');
+wheelForm?.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const payload = Object.fromEntries(new FormData(wheelForm));
+  wheelImg?.classList.remove('spin'); void wheelImg?.offsetWidth; wheelImg?.classList.add('spin');
+  tone(meta.freq + 25, .2, .03);
+  const d = await getJSON('/api/wheel/play', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)});
+  setBalance(localBalance - Number(payload.amount || 0) + Number(d?.data?.payout || 0));
+  document.getElementById('wheel-result').textContent = JSON.stringify(d, null, 2);
+});
+
 const coinForm = document.getElementById('coin-form');
 const coinEl = document.getElementById('coin');
 coinForm?.addEventListener('submit', async (e)=>{
@@ -147,4 +165,4 @@ function connectSSE(){
 }
 
 setBalance(0);
-if (meta.kind !== 'coinflip') connectSSE();
+if (meta.kind === 'crash') connectSSE();

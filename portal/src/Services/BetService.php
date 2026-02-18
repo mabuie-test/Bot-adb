@@ -18,6 +18,9 @@ final class BetService
 
     public function placeBet(int $roundId, int $userId, float $amount, ?float $autoCashout = null): int
     {
+        if ($amount < 5) {
+            throw new \InvalidArgumentException('Aposta mínima é 5 MTS');
+        }
         $this->walletService->debit($userId, $amount, 'bet-' . $roundId . '-' . $userId . '-' . microtime(true), 'game', ['round_id' => $roundId]);
         return $this->bets->place($roundId, $userId, $amount, $autoCashout);
     }

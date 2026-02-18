@@ -91,6 +91,10 @@ php scripts/reconcile_csv.php storage/reconciliation/sample_statement.csv
 
 ## Melhorias recentes de jogos
 
+- Implementada **Roda da Sorte** com odds na roda (inclui x0.5 até x5.0), prova justa por seed/hmac e animação dedicada.
+- Aplicada aposta mínima global de **5 MTS** para jogos monetários.
+- Painel administrativo inicial com endpoints para utilizadores, submissões pendentes, verificação/rejeição de depósitos, alternância de jogos e relatório financeiro.
+
 - Interface visual com cards de jogos e imagens (`aviator.svg`, `coin.svg`) + feed SSE contínuo de rounds em execução.
 - Painel de aposta estilo profissional com saldo, seleção rápida de stake (chips), ações ½/2x/limpar e botões de auto-cashout.
 - Lobby com seleção de jogo e abertura em página dedicada (`/game.html?game=...`), com vetor/arte animável e áudio temático por jogo.

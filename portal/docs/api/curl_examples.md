@@ -90,3 +90,16 @@ curl 'http://localhost:8080/api/account/profile?user_id=1'
 curl 'http://localhost:8080/api/account/bets/history?user_id=1'
 curl 'http://localhost:8080/api/account/withdrawals/history?user_id=1'
 ```
+
+
+## Jogar roda da sorte (min 5 MTS)
+```bash
+curl -X POST http://localhost:8080/api/wheel/play \
+  -H 'Content-Type: application/json' \
+  -d '{"user_id":1,"amount":25,"client_seed":"xyz"}'
+```
+
+## Admin: relatório financeiro
+```bash
+curl http://localhost:8080/api/admin/reports/financial
+```

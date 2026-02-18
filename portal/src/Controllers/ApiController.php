@@ -19,9 +19,28 @@ use App\Services\PaymentSubmissionService;
 use App\Services\ProvablyFairService;
 use App\Services\RoundService;
 use App\Services\WalletService;
+use App\Services\WheelService;
 
 final class ApiController
 {
+
+    private function requireAdmin(): void
+    {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            session_start();
+        }
+        $uid = (int) ($_SESSION['user_id'] ?? 0);
+        if ($uid <= 0) {
+            throw new \RuntimeException('Não autenticado');
+        }
+        $stmt = Database::connection()->prepare('SELECT role_id FROM users WHERE id=:id LIMIT 1');
+        $stmt->execute(['id' => $uid]);
+        $user = $stmt->fetch();
+        if (!$user || (int) $user['role_id'] !== 3) {
+            throw new \RuntimeException('Acesso admin requerido');
+        }
+    }
+
 
     public function registerAccount(): void
     {
@@ -216,6 +235,80 @@ final class ApiController
         }
 
         Response::json(['data' => ['balance' => (float) $wallet['balance'], 'currency' => $wallet['currency']]]);
+    }
+
+
+    public function playWheel(): void
+    {
+        $data = json_decode((string) file_get_contents('php://input'), true) ?: [];
+        $service = new WheelService(new ProvablyFairService(new SeedCrypto()), new WalletService());
+        try {
+            $result = $service->play((int) ($data['user_id'] ?? 0), (float) ($data['amount'] ?? 0), $data['client_seed'] ?? null);
+            Response::json(['message' => 'Wheel concluído', 'data' => $result], 201);
+        } catch (\Throwable $e) {
+            Response::json(['error' => $e->getMessage()], 422);
+        }
+    }
+
+    public function adminUsers(): void
+    {
+        try { $this->requireAdmin(); } catch (\Throwable $e) { Response::json(['error'=>$e->getMessage()],403); return; }
+        $stmt = Database::connection()->query('SELECT id, full_name, email, phone, status, role_id, created_at FROM users ORDER BY id DESC LIMIT 300');
+        Response::json(['data' => $stmt->fetchAll()]);
+    }
+
+    public function adminPendingSubmissions(): void
+    {
+        try { $this->requireAdmin(); } catch (\Throwable $e) { Response::json(['error'=>$e->getMessage()],403); return; }
+        $stmt = Database::connection()->query("SELECT submission_id, user_id, submitted_reference, submitted_amount, submitted_phone, status, created_at FROM payment_submissions WHERE status='pending' ORDER BY created_at DESC LIMIT 300");
+        Response::json(['data' => $stmt->fetchAll()]);
+    }
+
+    public function adminVerifySubmission(): void
+    {
+        try { $this->requireAdmin(); } catch (\Throwable $e) { Response::json(['error'=>$e->getMessage()],403); return; }
+        $data = json_decode((string) file_get_contents('php://input'), true) ?: [];
+        $svc = new PaymentSubmissionService();
+        try {
+            $svc->verifyAndCredit((int) $data['submission_id'], (int) ($_SESSION['user_id'] ?? 0), (string) ($data['note'] ?? 'validated'), new WalletService());
+            Response::json(['message' => 'Submissão validada e carteira creditada']);
+        } catch (\Throwable $e) {
+            Response::json(['error' => $e->getMessage()], 422);
+        }
+    }
+
+    public function adminRejectSubmission(): void
+    {
+        try { $this->requireAdmin(); } catch (\Throwable $e) { Response::json(['error'=>$e->getMessage()],403); return; }
+        $data = json_decode((string) file_get_contents('php://input'), true) ?: [];
+        (new PaymentSubmissionService())->reject((int) $data['submission_id'], (int) ($_SESSION['user_id'] ?? 0), (string) ($data['note'] ?? 'rejected'));
+        Response::json(['message' => 'Submissão rejeitada']);
+    }
+
+    public function adminFinancialReport(): void
+    {
+        try { $this->requireAdmin(); } catch (\Throwable $e) { Response::json(['error'=>$e->getMessage()],403); return; }
+        $pdo = Database::connection();
+        $deposits = $pdo->query("SELECT COALESCE(SUM(amount),0) total FROM transactions WHERE type='credit' AND external_provider IN ('manual_transfer')")->fetch();
+        $payouts = $pdo->query("SELECT COALESCE(SUM(amount),0) total FROM transactions WHERE type='credit' AND external_provider IN ('game','coinflip','wheel')")->fetch();
+        $bets = $pdo->query("SELECT COALESCE(SUM(amount),0) total FROM bets")->fetch();
+        $wallets = $pdo->query("SELECT COALESCE(SUM(balance),0) total FROM wallets")->fetch();
+        Response::json(['data' => [
+            'deposits_total' => (float) ($deposits['total'] ?? 0),
+            'payouts_total' => (float) ($payouts['total'] ?? 0),
+            'bets_volume' => (float) ($bets['total'] ?? 0),
+            'wallets_aggregate' => (float) ($wallets['total'] ?? 0),
+        ]]);
+    }
+
+    public function adminToggleGame(): void
+    {
+        try { $this->requireAdmin(); } catch (\Throwable $e) { Response::json(['error'=>$e->getMessage()],403); return; }
+        $data = json_decode((string) file_get_contents('php://input'), true) ?: [];
+        $status = in_array(($data['status'] ?? ''), ['active','inactive','maintenance'], true) ? $data['status'] : 'inactive';
+        $stmt = Database::connection()->prepare('UPDATE games SET status=:status WHERE shortcode=:shortcode');
+        $stmt->execute(['status' => $status, 'shortcode' => (string) ($data['shortcode'] ?? '')]);
+        Response::json(['message' => 'Estado do jogo atualizado']);
     }
 
     public function playCoinFlip(): void

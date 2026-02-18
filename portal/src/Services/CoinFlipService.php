@@ -19,7 +19,7 @@ final class CoinFlipService
             throw new \InvalidArgumentException('Escolha inválida');
         }
 
-        if ($amount <= 0) {
+        if ($amount < 5) {
             throw new \InvalidArgumentException('Montante inválido');
         }
 

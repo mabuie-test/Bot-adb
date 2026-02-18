@@ -37,6 +37,13 @@ $router->add('GET', '/api/rounds/proof', [$controller, 'roundProof']);
 $router->add('POST', '/api/bets', [$controller, 'placeBet']);
 $router->add('POST', '/api/bets/cashout', [$controller, 'cashout']);
 $router->add('POST', '/api/coinflip/play', [$controller, 'playCoinFlip']);
+$router->add('POST', '/api/admin/games/toggle', [$controller, 'adminToggleGame']);
+$router->add('GET', '/api/admin/reports/financial', [$controller, 'adminFinancialReport']);
+$router->add('POST', '/api/admin/payments/reject', [$controller, 'adminRejectSubmission']);
+$router->add('POST', '/api/admin/payments/verify', [$controller, 'adminVerifySubmission']);
+$router->add('GET', '/api/admin/payments/pending', [$controller, 'adminPendingSubmissions']);
+$router->add('GET', '/api/admin/users', [$controller, 'adminUsers']);
+$router->add('POST', '/api/wheel/play', [$controller, 'playWheel']);
 
 $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
 $router->dispatch($_SERVER['REQUEST_METHOD'] ?? 'GET', $path);
