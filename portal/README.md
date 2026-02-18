@@ -1,6 +1,6 @@
 # Crash Portal PHP 8.x (MVC) - Manual Deposit + Provably Fair
 
-Plataforma web modular para LAMP/LEMP com jogos crash, carteira interna, depósito manual por transferência externa e auditoria completa.
+Plataforma web modular para LAMP/LEMP com jogos crash, carteira interna, depósito manual por transferência externa e auditoria completa, com `composer.json` incluído no projeto.
 
 ## Estrutura
 

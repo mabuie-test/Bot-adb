@@ -3,12 +3,28 @@ async function postJSON(url, payload){
   return r.json();
 }
 
+function switchTab(name){
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === `tab-${name}`));
+}
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', ()=> switchTab(btn.dataset.tab));
+});
+
+document.querySelectorAll('[data-switch]').forEach(link => {
+  link.addEventListener('click', (e)=>{
+    e.preventDefault();
+    switchTab(link.dataset.switch);
+  });
+});
+
 const reg = document.getElementById('register-form');
 reg?.addEventListener('submit', async (e)=>{
   e.preventDefault();
   const payload = Object.fromEntries(new FormData(reg));
   const d = await postJSON('/api/account/register', payload);
-  const pretty = d?.user_id ? String(d.user_id).padStart(5,'0') : null;
+  const pretty = d?.user_code || (d?.user_id ? String(d.user_id).padStart(5,'0') : null);
   document.getElementById('register-result').textContent = pretty ? `Conta criada! ID Jogador: ${pretty}\n` + JSON.stringify(d, null, 2) : JSON.stringify(d, null, 2);
 });
 

@@ -67,6 +67,24 @@ document.getElementById('sound-toggle')?.addEventListener('click', async () => {
   document.getElementById('sound-toggle').textContent = audioEnabled ? '🔊 Som: ON' : '🔈 Som: OFF';
 });
 
+
+// Pads estilizados de seleção
+function bindPads(containerId) {
+  const root = document.getElementById(containerId);
+  if (!root) return;
+  root.querySelectorAll('.pad').forEach((btn)=>{
+    btn.addEventListener('click', ()=>{
+      const targetId = btn.dataset.target;
+      const target = document.getElementById(targetId);
+      if (target) target.value = btn.dataset.value;
+      root.querySelectorAll('.pad').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+}
+bindPads('dice-bet-type-pads');
+bindPads('dice-selection-pads');
+
 let latestBetId = null;
 let selectedAutoCashout = null;
 let localBalance = 0;
