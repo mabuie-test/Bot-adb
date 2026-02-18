@@ -19,6 +19,7 @@ $router = new Router();
 $router->add('GET', '/api/csrf', [$controller, 'csrf']);
 $router->add('POST', '/api/register', [$controller, 'register']);
 $router->add('GET', '/api/games', [$controller, 'listGames']);
+$router->add('GET', '/api/wallet/balance', [$controller, 'walletBalance']);
 $router->add('POST', '/api/deposits/manual', [$controller, 'submitManualDeposit']);
 $router->add('GET', '/api/fairness/proof', [$controller, 'fairnessProof']);
 $router->add('GET', '/api/round/preview', [$controller, 'roundPreview']);

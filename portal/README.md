@@ -92,6 +92,7 @@ php scripts/reconcile_csv.php storage/reconciliation/sample_statement.csv
 ## Melhorias recentes de jogos
 
 - Interface visual com cards de jogos e imagens (`aviator.svg`, `coin.svg`) + feed SSE contínuo de rounds em execução.
+- Painel de aposta estilo profissional com saldo, seleção rápida de stake (chips), ações ½/2x/limpar e botões de auto-cashout.
 - Novo mini-jogo **Cara ou Coroa justo** com animação da moeda e retorno de prova (`seed/hash/hmac`).
 
 ## Segurança implementada

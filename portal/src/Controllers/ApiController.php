@@ -115,6 +115,27 @@ final class ApiController
     }
 
 
+
+    public function walletBalance(): void
+    {
+        $userId = (int) ($_GET['user_id'] ?? 0);
+        if ($userId <= 0) {
+            Response::json(['error' => 'user_id é obrigatório'], 422);
+            return;
+        }
+
+        $stmt = Database::connection()->prepare('SELECT balance, currency FROM wallets WHERE user_id=:user_id LIMIT 1');
+        $stmt->execute(['user_id' => $userId]);
+        $wallet = $stmt->fetch();
+
+        if (!$wallet) {
+            Response::json(['data' => ['balance' => 0, 'currency' => 'MZN']]);
+            return;
+        }
+
+        Response::json(['data' => ['balance' => (float) $wallet['balance'], 'currency' => $wallet['currency']]]);
+    }
+
     public function playCoinFlip(): void
     {
         $data = json_decode((string) file_get_contents('php://input'), true) ?: [];

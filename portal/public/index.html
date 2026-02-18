@@ -40,16 +40,54 @@
     </section>
 
     <section>
-      <h2>Aposta rápida (Crash)</h2>
+      <h2>Painel profissional de aposta (Crash)</h2>
+
+      <div class="wallet-panel">
+        <div>
+          <label>User ID</label>
+          <input id="wallet_user_id" type="number" placeholder="User ID" />
+        </div>
+        <button type="button" id="load-balance">Carregar saldo</button>
+        <div class="balance-box">
+          <span>Saldo disponível</span>
+          <strong id="wallet-balance">0.00 MZN</strong>
+        </div>
+      </div>
+
       <form id="bet-form">
-        <input name="user_id" type="number" placeholder="User ID" required />
-        <input name="amount" type="number" step="0.01" placeholder="Montante" required />
+        <div class="stake-row">
+          <label>Stake</label>
+          <input name="amount" id="stake_amount" type="number" step="0.01" min="1" placeholder="Montante" required />
+          <div class="stake-actions">
+            <button type="button" class="small-btn" id="stake-half">½</button>
+            <button type="button" class="small-btn" id="stake-double">2x</button>
+            <button type="button" class="small-btn" id="stake-clear">Limpar</button>
+          </div>
+        </div>
+
+        <div class="chip-row" id="chip-row">
+          <button type="button" class="chip" data-chip="10">10</button>
+          <button type="button" class="chip" data-chip="25">25</button>
+          <button type="button" class="chip" data-chip="50">50</button>
+          <button type="button" class="chip" data-chip="100">100</button>
+          <button type="button" class="chip" data-chip="250">250</button>
+          <button type="button" class="chip" data-chip="500">500</button>
+        </div>
+
+        <input name="user_id" id="bet_user_id" type="number" placeholder="User ID da aposta" required />
         <select id="game"></select>
-        <button type="button" id="create-round">Criar round</button>
+
+        <div class="bet-buttons">
+          <button type="button" id="create-round" class="secondary">Criar round</button>
+          <button type="button" id="auto-cashout-2" class="secondary">Auto 2.0x</button>
+          <button type="button" id="auto-cashout-3" class="secondary">Auto 3.0x</button>
+        </div>
+
         <input name="round_id" id="round_id" type="number" placeholder="Round ID" required />
-        <button>Apostar</button>
+        <button class="primary">Apostar agora</button>
       </form>
-      <button id="cashout">Cashout 2.0x</button>
+
+      <button id="cashout" class="cashout">Cashout 2.0x</button>
       <pre id="game-result"></pre>
     </section>
 
