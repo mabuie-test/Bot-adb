@@ -1,0 +1,29 @@
+body{font-family:system-ui,sans-serif;margin:0;background:#0f172a;color:#e2e8f0}
+header{padding:1rem;background:#1e293b}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;padding:1rem}
+section{background:#1e293b;padding:1rem;border-radius:8px}
+input,button,select{display:block;width:100%;margin:.4rem 0;padding:.6rem;border-radius:6px;border:1px solid #334155;background:#0b1324;color:#dbeafe}
+button{background:#22c55e;color:#08130a;font-weight:700}
+button.secondary{background:#0ea5e9;color:#082f49}
+button.primary{background:#22c55e;color:#052e16}
+button.cashout{background:#f59e0b;color:#3f2504}
+#multiplier{font-size:2.3rem;font-weight:800;color:#38bdf8}
+pre{background:#0b1324;padding:.5rem;border-radius:6px;min-height:64px;overflow:auto}
+.game-cards{display:grid;grid-template-columns:1fr;gap:.7rem}
+.card{display:flex;gap:.8rem;background:#0b1324;border:1px solid #334155;border-radius:8px;padding:.5rem;align-items:center}
+.card img{width:74px;height:54px;object-fit:cover;border-radius:6px}
+.coin-box{display:flex;justify-content:center;align-items:center;min-height:120px}
+.coin{width:96px;height:96px;transition:transform .8s ease}.coin.spin{animation:spin 0.8s linear 4}
+@keyframes spin{from{transform:rotateY(0)}to{transform:rotateY(1080deg)}}
+.phase-running{color:#22c55e}.phase-crashed{color:#ef4444}.phase-starting{color:#f59e0b}
+.wallet-panel{display:grid;grid-template-columns:1fr auto auto;gap:.6rem;align-items:end;background:#0b1324;padding:.6rem;border-radius:8px;border:1px solid #334155;margin-bottom:.6rem}
+.balance-box{display:flex;flex-direction:column;background:#111827;padding:.5rem;border-radius:6px;border:1px solid #374151;min-width:160px}
+.balance-box span{font-size:.8rem;color:#93c5fd}.balance-box strong{font-size:1.1rem;color:#86efac}
+.stake-row{background:#0b1324;padding:.6rem;border-radius:8px;border:1px solid #334155}
+.stake-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem}
+.small-btn{padding:.4rem;background:#475569;color:#e2e8f0}
+.chip-row{display:flex;flex-wrap:wrap;gap:.4rem;margin:.6rem 0}.chip{width:auto;min-width:58px;padding:.4rem .6rem;background:#111827;color:#f8fafc;border:1px solid #64748b;border-radius:999px}
+.chip.active{background:#facc15;color:#422006;border-color:#f59e0b}
+.bet-buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem}
+@media(max-width:1200px){.wallet-panel{grid-template-columns:1fr 1fr}.balance-box{grid-column:1/-1}}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.bet-buttons{grid-template-columns:1fr}}

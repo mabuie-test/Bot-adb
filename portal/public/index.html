@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Crash Portal</title>
+  <link rel="stylesheet" href="/assets/css/app.css" />
+</head>
+<body>
+  <header>
+    <h1>Crash Portal</h1>
+    <p>Rounds sempre a rodar: entra, aposta e faz cashout antes do crash.</p>
+  </header>
+
+  <main class="grid">
+    <section>
+      <h2>Jogos em execução</h2>
+      <div class="game-cards">
+        <article class="card">
+          <img src="/assets/img/aviator.svg" alt="Jogo aviator" />
+          <div>
+            <strong>Aviator Crash</strong>
+            <p>Status: <span id="round-phase">starting</span></p>
+            <p>Round #<span id="round-index">-</span></p>
+          </div>
+        </article>
+        <article class="card">
+          <img src="/assets/img/coin.svg" alt="Jogo cara ou coroa" />
+          <div>
+            <strong>Cara ou Coroa Justo</strong>
+            <p>Provably fair por seed/hmac.</p>
+          </div>
+        </article>
+      </div>
+
+      <h3>Crash ao vivo</h3>
+      <div id="multiplier">1.00x</div>
+      <p id="status">Conectando...</p>
+      <p>Crash point atual: <span id="crash-point">-</span>x</p>
+    </section>
+
+    <section>
+      <h2>Painel profissional de aposta (Crash)</h2>
+
+      <div class="wallet-panel">
+        <div>
+          <label>User ID</label>
+          <input id="wallet_user_id" type="number" placeholder="User ID" />
+        </div>
+        <button type="button" id="load-balance">Carregar saldo</button>
+        <div class="balance-box">
+          <span>Saldo disponível</span>
+          <strong id="wallet-balance">0.00 MZN</strong>
+        </div>
+      </div>
+
+      <form id="bet-form">
+        <div class="stake-row">
+          <label>Stake</label>
+          <input name="amount" id="stake_amount" type="number" step="0.01" min="1" placeholder="Montante" required />
+          <div class="stake-actions">
+            <button type="button" class="small-btn" id="stake-half">½</button>
+            <button type="button" class="small-btn" id="stake-double">2x</button>
+            <button type="button" class="small-btn" id="stake-clear">Limpar</button>
+          </div>
+        </div>
+
+        <div class="chip-row" id="chip-row">
+          <button type="button" class="chip" data-chip="10">10</button>
+          <button type="button" class="chip" data-chip="25">25</button>
+          <button type="button" class="chip" data-chip="50">50</button>
+          <button type="button" class="chip" data-chip="100">100</button>
+          <button type="button" class="chip" data-chip="250">250</button>
+          <button type="button" class="chip" data-chip="500">500</button>
+        </div>
+
+        <input name="user_id" id="bet_user_id" type="number" placeholder="User ID da aposta" required />
+        <select id="game"></select>
+
+        <div class="bet-buttons">
+          <button type="button" id="create-round" class="secondary">Criar round</button>
+          <button type="button" id="auto-cashout-2" class="secondary">Auto 2.0x</button>
+          <button type="button" id="auto-cashout-3" class="secondary">Auto 3.0x</button>
+        </div>
+
+        <input name="round_id" id="round_id" type="number" placeholder="Round ID" required />
+        <button class="primary">Apostar agora</button>
+      </form>
+
+      <button id="cashout" class="cashout">Cashout 2.0x</button>
+      <pre id="game-result"></pre>
+    </section>
+
+    <section>
+      <h2>Cara ou Coroa</h2>
+      <div class="coin-box">
+        <img src="/assets/img/coin.svg" class="coin" id="coin" alt="moeda" />
+      </div>
+      <form id="coin-form">
+        <input name="user_id" type="number" placeholder="User ID" required />
+        <input name="amount" type="number" step="0.01" placeholder="Montante" required />
+        <select name="choice" required>
+          <option value="cara">Cara</option>
+          <option value="coroa">Coroa</option>
+        </select>
+        <button>Girar moeda</button>
+      </form>
+      <pre id="coin-result"></pre>
+    </section>
+
+    <section>
+      <h2>Depósito Manual</h2>
+      <ol>
+        <li>Transfira para o Paybill/Conta indicado no painel.</li>
+        <li>Guarde referência e número pagador.</li>
+        <li>Submeta no formulário abaixo.</li>
+      </ol>
+      <form id="deposit-form">
+        <input name="user_id" type="number" placeholder="User ID" required />
+        <input name="amount" type="number" step="0.01" placeholder="Montante" required />
+        <input name="phone" placeholder="Telefone pagador" required />
+        <input name="reference" placeholder="Referência da transferência" required />
+        <input name="receipt_url" placeholder="URL do comprovativo (opcional)" />
+        <button>Submeter</button>
+      </form>
+      <pre id="deposit-result"></pre>
+    </section>
+  </main>
+
+  <script src="/assets/js/app.js"></script>
+</body>
+</html>
